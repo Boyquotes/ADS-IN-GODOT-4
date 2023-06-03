@@ -1,0 +1,50 @@
+[gd_scene load_steps=7 format=3 uid="uid://b5x2vn8i0kqvs"]
+
+[ext_resource type="Script" path="res://FPS CONTROLLER/Fps.gd" id="1_s5gs8"]
+[ext_resource type="PackedScene" uid="uid://dc37p8e72sghc" path="res://WEAPONS/weapon.tscn" id="2_cevvb"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_6qgcx"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_iw7xu"]
+
+[sub_resource type="Sky" id="Sky_b0e4i"]
+sky_material = SubResource("ProceduralSkyMaterial_iw7xu")
+
+[sub_resource type="Environment" id="Environment_tq8f0"]
+background_mode = 2
+sky = SubResource("Sky_b0e4i")
+ambient_light_source = 3
+reflected_light_source = 2
+tonemap_mode = 2
+tonemap_exposure = 1.5
+tonemap_white = 1.5
+glow_blend_mode = 1
+
+[node name="Fps_character3D" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_s5gs8")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_6qgcx")
+
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.35, 0)
+
+[node name="Camera3D" type="Camera3D" parent="Head"]
+environment = SubResource("Environment_tq8f0")
+fov = 90.0
+near = 0.001
+
+[node name="hand" type="Node3D" parent="Head"]
+
+[node name="gun_clip_prevention" type="Node3D" parent="Head/hand"]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+
+[node name="weapon" parent="Head/hand/gun_clip_prevention" instance=ExtResource("2_cevvb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.221, -0.058, -0.774)
+default_position = Vector3(0.221, -0.058, -0.774)
+ads_position = Vector3(0.009, -0.003, -0.673)
+
+[node name="Head_check" type="RayCast3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+target_position = Vector3(0, 1, 0)
